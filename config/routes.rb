@@ -1,0 +1,15 @@
+Rails.application.routes.draw do
+root 'users#index'
+post '/users/' => 'users#new'
+post '/users/login' => 'users#login'
+get '/users/:id' => 'users#edit'
+patch '/users/:id' => 'users#update'
+get '/events' => 'events#index'
+get '/logout' => 'users#logout'
+post '/events/' => 'events#create'
+get '/events/:id/delete' => 'events#destroy'
+get '/events/attendance/:id/delete' => 'events#cancel'
+get '/events/attendance/:id/attend' => 'events#attend'
+get '/events/:id' => 'events#show'
+post '/events/comment/:id' =>'events#comment'
+end

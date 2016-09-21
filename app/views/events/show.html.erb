@@ -1,0 +1,47 @@
+<h1><%=@event.name%></h1>
+<p>Host: <%= @event.host.first_name %> <%= @event.host.last_name %></p>
+<p>Date: <%= @event.date %></p>
+<p>Location: <%= @event.city %>, <%= @event.state %></p>
+<p>People who are joining the event <%= @event.users.length %></p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Location</th>
+			<th>State</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @event.users.each do |user| %>
+			<tr>
+				<td><%= user.first_name%> <%= user.last_name %></td>
+				<td><%= user.city %></td>
+				<td><%= user.state %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<p>Discussion about this event:</p>
+<% @event.comments.each do |comment| %>
+ <p><%= comment.user.first_name %> says: <%= comment.content %></p>
+ <hr>
+<% end %>
+
+<p>Add Comment</p>
+	<% if flash[:errors]%>
+	<% flash[:errors].each do |x|%>
+		<p><%= x %></p>
+	<% end %>
+	<% end %>
+<form action="/events/comment/<%= @event.id %>" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<textarea name="comment">
+		
+	</textarea>
+	<input type="submit" value="Submit Comments">
+</form>
+
+
+

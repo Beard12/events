@@ -1,0 +1,21 @@
+<h1>Edit Your Profile</h1> <a href="/events">Events Dashboard</a> <a href="/logout">Logout</a>
+	<% if flash[:errors]%>
+	<% flash[:errors].each do |x|%>
+		<p><%= x %></p>
+	<% end %>
+	<% end %>
+<form action="/users/<%= @user.id %>" method="post">
+	<input type="hidden" name="_method" value="patch">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	First Name: <input type="text" value="<%=@user.first_name%>" name="user[first_name]">
+	Last Name: <input type="text" value="<%=@user.last_name%>" name="user[last_name]">
+	Email <input type="email" value="<%=@user.email%>" name="user[email]">
+	Location <input type="text" name="user[city]" value="<%=@user.city%>">
+	<select name="user[state]">
+		<option value="WA">WA</option>
+		<option value="CA">CA</option>
+		<option value="WI">WI</option>
+	</select>
+	<input type="submit" value="Update Records">
+
+</form>

@@ -1,0 +1,36 @@
+<h1>Welcome</h1>
+<fieldset>
+	<% if flash[:errors]%>
+	<% flash[:errors].each do |x|%>
+		<p><%= x %></p>
+	<% end %>
+	<% end %>
+	<legend>Register</legend>
+	<form action="/users/" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	First Name <input type="text" name="user[first_name]">
+	Last Name <input type="text" name="user[last_name]">
+	Email<input type="email" name="user[email]">
+	Location<input type="text" name="user[city]">
+	<select name="user[state]">
+		<option value="WA">WA</option>
+		<option value="CA">CA</option>
+		<option value="WI">WI</option>
+	</select>
+	Password<input type="password" name="user[password]">
+	Confirm PW<input type="password" name="user[password_confirmation]">
+	<input type="submit" name="Register">
+	</form>
+</fieldset>
+<fieldset>
+	<% if flash[:logerror] %>
+	<%= flash[:logerror] %>
+	<% end %>
+	<legend>Login</legend>
+	<form action="/users/login" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	Email<input type="email" name="email">
+	Password<input type="password" name="password">
+	<input type="submit" name="Login">
+	</form>
+</fieldset>

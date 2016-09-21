@@ -1,0 +1,80 @@
+<h1>Welcome <%=@user.first_name %></h1> <a href="/users/<%=@user.id%>">Edit My Profile</a> <a href="/logout">Logout</a>
+<p>Here are some of the events at your state:</p>
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Date</th>
+			<th>Location</th>
+			<th>Host</th>
+			<th>Action/Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @eventsinstate.each do |event|%>
+		<tr>
+			<td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+			<td><%= event.date %></td>
+			<td><%= event.city %></td>
+			<td><%= event.host.first_name %></td>
+			<% if @user == event.host %>
+			<td><a href="#">Edit</a> | <a href="/events/<%= event.id%>/delete">Delete</a></td>
+			<% elsif event.users.include? (@user) %>
+			<td>Joining <a href="/events/attendance/<%= event.id %>/delete">Cancel</a></td>
+			<% else %>
+			<td><a href="/events/attendance/<%= event.id %>/attend">Join</a></td>
+			<% end %>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+<p>Here are some of the events in other states</p>
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Date</th>
+			<th>Location</th>
+			<th>Host</th>
+			<th>Action/Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @eventsoutstate.each do |event|%>
+		<tr>
+			<td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+			<td><%= event.date %></td>
+			<td><%= event.city %></td>
+			<td><%= event.host.first_name %></td>
+			<% if @user == event.host %>
+			<td><a href="#">Edit</a> | <a href="/events/<%= event.id%>/delete">Delete</a></td>
+			<% elsif event.users.include? (@user) %>
+			<td>Joining <a href="/events/attendance/<%= event.id %>/delete">Cancel</a></td>
+			<% else %>
+			<td><a href="/events/attendance/<%= event.id %>/attend">Join</a></td>
+			<% end %>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<h2>Add Event</h2>
+<% if flash[:errors] %>
+<% flash[:errors].each do |x| %>
+	<p><%= x %></p>
+<% end %>
+<% end %>
+<form action="/events/" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	Name<input type="text" name="event[name]">
+	Date <input type="date" name="event[date]">
+	Location<input type="text" name="event[city]">
+	<select name="event[state]">
+		<option value="WA">WA</option>
+		<option value="CA">CA</option>
+		<option value="WI">WI</option>
+	</select>
+	<input type="submit" value="Add Event">
+	
+</form>
